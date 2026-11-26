@@ -181,4 +181,57 @@ func TestLedger(t *testing.T) {
 
 		require.Equal(t, ledger.Money(initialBalance*nAccounts), total)
 	})
+
+	// t.Run("TransferAtomicity", func(t *testing.T) {
+
+	// 	require.NoError(t, l0.CreateAccount(ctx, "alice"))
+	// 	require.NoError(t, l0.Deposit(ctx, "alice", 100))
+
+	// 	// Счёт "ghost" не существует.
+	// 	_ = l0.Transfer(ctx, "alice", "ghost", 40)
+
+	// 	balance, err := l0.GetBalance(ctx, "alice")
+	// 	require.NoError(t, err)
+
+	// 	// Деньги не должны исчезнуть.
+	// 	require.Equal(t, ledger.Money(100), balance)
+	// })
+
+	// t.Run("Deadlock?", func(t *testing.T) {
+	// 	ctx, cancel := context.WithTimeout(
+	// 		context.Background(), 10*time.Second,
+	// 	)
+	// 	defer cancel()
+
+	// 	dsn := pgfixture.Start(t)
+
+	// 	l, err := ledger.New(ctx, dsn)
+	// 	require.NoError(t, err)
+	// 	defer l.Close()
+
+	// 	require.NoError(t, l.CreateAccount(ctx, "a"))
+	// 	require.NoError(t, l.CreateAccount(ctx, "b"))
+
+	// 	require.NoError(t, l.Deposit(ctx, "a", 100))
+	// 	require.NoError(t, l.Deposit(ctx, "b", 100))
+
+	// 	start := make(chan struct{})
+	// 	results := make(chan error, 2)
+
+	// 	go func() {
+	// 		<-start
+	// 		results <- l.Transfer(ctx, "a", "b", 1)
+	// 	}()
+
+	// 	go func() {
+	// 		<-start
+	// 		results <- l.Transfer(ctx, "b", "a", 1)
+	// 	}()
+
+	// 	close(start)
+
+	// 	require.NoError(t, <-results)
+	// 	require.NoError(t, <-results)
+
+	// })
 }
