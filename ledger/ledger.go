@@ -6,7 +6,7 @@ import (
 	"context"
 	"database/sql"
 
-	_ "github.com/jackc/pgx/v4/stdlib"
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 type ledgerImpl struct {
@@ -50,13 +50,26 @@ func (l *ledgerImpl) GetBalance(ctx context.Context, id ID) (Money, error) {
 }
 
 func deposit(ctx context.Context, db Execer, id ID, amount Money) error {
-	_, err := db.ExecContext(ctx, `
+	if amount < 0 {
+		return ErrNegativeAmount
+	}
+
+	res, err := db.ExecContext(ctx, `
 		UPDATE accounts
 		SET balance = balance + $1
 		WHERE id = $2
 	`, amount, id)
 
-	return err
+	affected, err := res.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if affected == 0 {
+		return sql.ErrNoRows
+	}
+
+	return nil
 }
 
 func (l *ledgerImpl) Deposit(ctx context.Context, id ID, amount Money) error {
@@ -64,6 +77,10 @@ func (l *ledgerImpl) Deposit(ctx context.Context, id ID, amount Money) error {
 }
 
 func withdraw(ctx context.Context, db Execer, id ID, amount Money) error {
+	if amount < 0 {
+		return ErrNegativeAmount
+	}
+
 	res, err := db.ExecContext(ctx, `
 		UPDATE accounts
 		SET balance = balance - $1

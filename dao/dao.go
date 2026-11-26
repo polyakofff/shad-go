@@ -7,7 +7,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	_ "github.com/jackc/pgx/v4/stdlib"
+	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
 type postgresDao struct {
@@ -57,22 +57,40 @@ func (d *postgresDao) Create(ctx context.Context, u *User) (UserID, error) {
 }
 
 func (d *postgresDao) Update(ctx context.Context, u *User) error {
-	_, err := d.db.ExecContext(ctx, `
+	res, err := d.db.ExecContext(ctx, `
 		UPDATE users
 		SET name = $1
 		WHERE id = $2
 	`, u.Name, u.ID)
 
-	return err
+	n, err := res.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if n == 0 {
+		return sql.ErrNoRows
+	}
+
+	return nil
 }
 
 func (d *postgresDao) Delete(ctx context.Context, id UserID) error {
-	_, err := d.db.ExecContext(ctx, `
+	res, err := d.db.ExecContext(ctx, `
 		DELETE FROM users
 		WHERE id = $1
 	`, id)
 
-	return err
+	n, err := res.RowsAffected()
+	if err != nil {
+		return err
+	}
+
+	if n == 0 {
+		return sql.ErrNoRows
+	}
+
+	return nil
 }
 
 func (d *postgresDao) Lookup(ctx context.Context, id UserID) (User, error) {
