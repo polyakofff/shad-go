@@ -16,7 +16,7 @@
 | **HTTP** | 🟢 [urlshortener (100)](./urlshortener) | 🟢 [digitalclock (100)](./digitalclock) | 🟢 [middleware (200)](./middleware) | 🟢 [firewall (200)](./firewall) | 🟡 [olympics (200)](./olympics) | |
 | **SQL** | 🟢 [dao (100)](./dao) | 🟢 [ledger (200)](./ledger) | 🟢 [shopfront (100)](./shopfront) | 🟢 [rsem (300)](./rsem) | | |
 | **[HW] Dist Build** | ⚫ [distbuild (1)](./distbuild) | | | | | |
-| **Generics** | 🟢 [genericsum (100)](./genericsum) | 🟢 [treeiter (100)](./treeiter) | 🔴 [consistenthash (200)](./consistenthash) | 🔴 [coverme (300)](./coverme) | | |
+| **Generics** | 🟢 [genericsum (100)](./genericsum) | 🟢 [treeiter (100)](./treeiter) | 🟢 [consistenthash (200)](./consistenthash) | 🔴 [coverme (300)](./coverme) | | |
 | **Reflect** | ⚪ [reversemap (100)](./reversemap) | 🟡 [jsonlist (100)](./jsonlist) | 🔴 [jsonrpc (100)](./jsonrpc) | ⚪ [excelwriter (200)](./excelwriter) | 🟡 [structtags (100)](./structtags) | |
 | **Low level** | ⚪ [illegal (100)](./illegal) | ⚪ [blowfish (100)](./blowfish) | ⚪ [gzep (100)](./gzep) | | | |
 | **Observability** | 🔴 [firegod (200)](./firegod) | | | | | |
